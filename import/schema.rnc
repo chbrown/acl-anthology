@@ -1,28 +1,23 @@
 # default namespace = ""
 
-b = element b { text }
-i = element i { text }
-first = element first { text }
-last = element last { text }
-von = element von { text }
-jr = element jr { text }
-Person = (text | first | jr | last | von)+
+RichText = (text | element b { text } | element i { text } | element SUP { text })+
+Person = text | (element first { text }?, element last { text }, element jr { text }?)
 Paper = element paper {
   attribute id { xsd:integer },
   attribute href { xsd:anyURI }?,
-  (element abstract { (text | b | i)+ }
+  (element abstract { RichText }
    | element address { text }
    | element attachment {
        attribute type { xsd:NCName }?,
        xsd:NCName
      }
-   | element author { Person }
+   | element author { Person+ }
    | element bibkey { text }
    | element bibtype { xsd:NCName }
    | element booktitle { text }
    | element dataset { xsd:NCName }
    | element doi { xsd:anyURI }
-   | element editor { (text | first | jr | last | von)+ }
+   | element editor { Person+ }
    | element erratum {
        attribute id { xsd:integer },
        xsd:NCName
@@ -45,12 +40,7 @@ Paper = element paper {
        xsd:NCName
      }
    | element software { xsd:NCName }
-   | element title {
-       (text
-        | b
-        | i
-        | element SUP { xsd:NCName })+
-     }
+   | element title { RichText }
    | element url { xsd:anyURI }
    | element video {
        attribute href { xsd:anyURI },

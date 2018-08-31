@@ -1,46 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <grammar xmlns="http://relaxng.org/ns/structure/1.0" datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes">
   <!-- default namespace = "" -->
-  <define name="b">
-    <element name="b">
-      <text/>
-    </element>
-  </define>
-  <define name="i">
-    <element name="i">
-      <text/>
-    </element>
-  </define>
-  <define name="first">
-    <element name="first">
-      <text/>
-    </element>
-  </define>
-  <define name="last">
-    <element name="last">
-      <text/>
-    </element>
-  </define>
-  <define name="von">
-    <element name="von">
-      <text/>
-    </element>
-  </define>
-  <define name="jr">
-    <element name="jr">
-      <text/>
-    </element>
-  </define>
-  <define name="Person">
+  <define name="RichText">
     <oneOrMore>
       <choice>
         <text/>
-        <ref name="first"/>
-        <ref name="jr"/>
-        <ref name="last"/>
-        <ref name="von"/>
+        <element name="b">
+          <text/>
+        </element>
+        <element name="i">
+          <text/>
+        </element>
+        <element name="SUP">
+          <text/>
+        </element>
       </choice>
     </oneOrMore>
+  </define>
+  <define name="Person">
+    <choice>
+      <text/>
+      <group>
+        <optional>
+          <element name="first">
+            <text/>
+          </element>
+        </optional>
+        <element name="last">
+          <text/>
+        </element>
+        <optional>
+          <element name="jr">
+            <text/>
+          </element>
+        </optional>
+      </group>
+    </choice>
   </define>
   <define name="Paper">
     <element name="paper">
@@ -55,13 +50,7 @@
       <oneOrMore>
         <choice>
           <element name="abstract">
-            <oneOrMore>
-              <choice>
-                <text/>
-                <ref name="b"/>
-                <ref name="i"/>
-              </choice>
-            </oneOrMore>
+            <ref name="RichText"/>
           </element>
           <element name="address">
             <text/>
@@ -75,7 +64,9 @@
             <data type="NCName"/>
           </element>
           <element name="author">
-            <ref name="Person"/>
+            <oneOrMore>
+              <ref name="Person"/>
+            </oneOrMore>
           </element>
           <element name="bibkey">
             <text/>
@@ -94,13 +85,7 @@
           </element>
           <element name="editor">
             <oneOrMore>
-              <choice>
-                <text/>
-                <ref name="first"/>
-                <ref name="jr"/>
-                <ref name="last"/>
-                <ref name="von"/>
-              </choice>
+              <ref name="Person"/>
             </oneOrMore>
           </element>
           <element name="erratum">
@@ -152,16 +137,7 @@
             <data type="NCName"/>
           </element>
           <element name="title">
-            <oneOrMore>
-              <choice>
-                <text/>
-                <ref name="b"/>
-                <ref name="i"/>
-                <element name="SUP">
-                  <data type="NCName"/>
-                </element>
-              </choice>
-            </oneOrMore>
+            <ref name="RichText"/>
           </element>
           <element name="url">
             <data type="anyURI"/>
